@@ -70,14 +70,16 @@ pub fn lineinput_desc(kbd: i32, dsp: i32, buf: &mut [u8]) -> Result<&str, Utf8Er
                 break;
             }
             _ => {
-                buf[i] = c as u8;
+                if i < buf.len() {
+                    buf[i] = c as u8;
+                }
                 i += 1;
                 syscalls::msgsendint(dsp, c);
             }
         }
-        if i > buf.len() {
-            break;
-        }
+    }
+    if i > buf.len() {
+        i = buf.len();
     }
     return str::from_utf8(&buf[..i]);
 }
