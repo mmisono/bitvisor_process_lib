@@ -69,13 +69,14 @@ pub fn lineinput_desc(kbd: i32, dsp: i32, buf: &mut [u8]) -> Result<&str, Utf8Er
                 syscalls::msgsendint(dsp, c);
                 break;
             }
-            _ => {
+            b' '...b'~' => {
                 if i < buf.len() {
                     buf[i] = c as u8;
                 }
                 i += 1;
                 syscalls::msgsendint(dsp, c);
             }
+            _ => (),
         }
     }
     if i > buf.len() {
