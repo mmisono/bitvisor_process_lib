@@ -40,14 +40,14 @@ macro_rules! print {
 
 #[macro_export]
 macro_rules! println {
-    () => (write!(Writer, "\n").unwrap());
+    () => {
+        print!("\n")
+    };
     ($fmt:expr) => {
-        write!(::io::Writer, $fmt).unwrap();
-        write!(::io::Writer, "\n").unwrap();
+        print!(concat!($fmt, "\n"))
     };
     ($fmt:expr, $($arg:tt)*) => {
-        write!(::io::Writer, $fmt, $($arg)*).unwrap();
-        write!(::io::Writer, "\n").unwrap();
+        print!(concat!($fmt, "\n"), $($arg)*)
     };
 }
 
