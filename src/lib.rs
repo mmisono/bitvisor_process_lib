@@ -1,17 +1,22 @@
 #![crate_type = "staticlib"]
-#![feature(lang_items)]
 #![no_std]
-#![feature(compiler_builtins_lib)]
 #![feature(asm)]
+#![feature(alloc)]
+#![feature(allocator_api)]
+#![feature(compiler_builtins_lib)]
+#![feature(const_fn)]
+#![feature(const_size_of)]
+#![feature(lang_items)]
 
 extern crate rlibc;
 extern crate compiler_builtins;
+extern crate spin;
+extern crate alloc;
 
 pub mod syscalls;
 #[macro_use]
 pub mod io;
-
-use core::fmt::Write;
+pub mod mm;
 
 #[lang = "eh_personality"]
 #[no_mangle]
@@ -25,3 +30,4 @@ pub extern "C" fn panic_fmt(fmt: core::fmt::Arguments, file: &'static str, line:
     syscalls::exitprocess(1);
     unreachable!();
 }
+
