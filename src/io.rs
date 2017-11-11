@@ -31,10 +31,16 @@ impl fmt::Write for Writer {
 macro_rules! print {
     () => ();
     ($fmt:expr) => {
-        write!(::io::Writer, $fmt).unwrap();
+        {
+            use core::fmt::Write;
+            write!(::io::Writer, $fmt).unwrap();
+        }
     };
     ($fmt:expr, $($arg:tt)*) => {
-        write!(::io::Writer, $fmt, $($arg)*).unwrap();
+        {
+            use core::fmt::Write;
+            write!(::io::Writer, $fmt, $($arg)*).unwrap();
+        }
     };
 }
 
